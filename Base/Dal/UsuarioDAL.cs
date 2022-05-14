@@ -18,21 +18,23 @@ namespace Dal
             // caso aconteça algum erro , o erro sera tratado abaixo.
             try
             {
-                cn.ConnectionString = "";
+                cn.ConnectionString = @"User ID=SA;Initial Catalog=LOJA;Data Source=.; Password=123";
+
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = cn;
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.CommandText = " SP_inserirUsuario";
+                cmd.CommandText = "SP_InserirUsuario";
 
                 SqlParameter patio = new SqlParameter("@Ativo", System.Data.SqlDbType.Bit);
                 patio.Value = _usuario.Ativo;
                 cmd.Parameters.Add(patio);
                 cmd.Parameters.Add(new SqlParameter("@NomeUsuario", System.Data.SqlDbType.VarChar)
-                { 
-                    Value = _usuario.NomeUsuario 
+                {
+                    Value = _usuario.NomeUsuario
                 });
 
                 SqlParameter psenha = new SqlParameter("@senha", System.Data.SqlDbType.VarChar);
+                psenha.Value = _usuario.Senha;
                 cmd.Parameters.Add(psenha);
 
                 SqlParameter pid = new SqlParameter("@id", System.Data.SqlDbType.Int);
@@ -40,7 +42,7 @@ namespace Dal
                 cmd.Parameters.Add(pid);
 
                 cn.Open();
-                _usuario.Id= Convert.ToInt32(cmd.ExecuteScalar());
+                _usuario.Id = Convert.ToInt32(cmd.ExecuteScalar());
 
                 return _usuario;
             }
@@ -63,6 +65,10 @@ namespace Dal
 
 
 
-
+//       .\SQLEXPRESS2019
     }
+
+
+    
+
 }
